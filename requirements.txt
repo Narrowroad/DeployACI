@@ -1,0 +1,5 @@
+urllib3
+https://github.com/datacenter/pyaci/archive/master.zip
+orionsdk>=0.0.6
+PyForms-GUI>=4.0.14
+pyforms
