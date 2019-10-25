@@ -25,6 +25,8 @@ import datetime
 import time
 import read_config
 
+IPTYPE = (ip.IPv4Address, ip.IPv6Address)
+NETTYPE = (ip.IPv4Network, ip.IPv6Network)
 CONSOLE_LOGGING = logging.DEBUG
 
 
@@ -139,7 +141,7 @@ def aciLogIn(apic = None):
                                                         ).POST()))
     return apic
     
-def createNewSBMApplication(name: str, 
+def createNewApplication(name: str, 
                             prod_client_subnet: ip.ip_network,
                             **kwargs) -> bool:
     """Deploy a new application into the NL Equinix ACI environment.
@@ -391,8 +393,7 @@ def checkACI(name: str,
     """
     # Log in to ACI
     apic = aciLogIn(apic)
-    # sbm = apic.mit.polUni().fvTenant(tenant)
-
+    
     # Get all the subnets in the tenant to make sure the new ones don't exist
     for subnet in apic.mit.polUni().fvTenant(tenant).GET(**options.subtreeClass('fvSubnet')):
         
@@ -453,6 +454,30 @@ def startLogging() -> logging.Logger:
     log.debug('Logger started')
     return log
 
+def make_ip_network(ip: str) -> ip.IPv4Network:
+    '''Returns an IP network object from the supplied string'''
+    # If the supplied ip is already a network, just return it
+    if isinstance(ip, NETTYPE): 
+        return ip
+
+    return ip.ip_network(ip)
+
+def getUsableTenants(apic: Node = None,) -> list:
+    '''
+    Returns a list of the current tenants in the fabric. In other words,
+        return all tenants that are not mgmt and infra.
+    
+    Returns:
+        list[str]: A list containing the name of each usable tenant in the fabric
+    '''
+
+    # Log in to ACI
+    apic = aciLogIn(apic)
+
+    # Get the tennants
+    result = apic.mit.GET(**options.subtreeClass('fvTenant'))
+    return [tn.name for tn in result if not tn.name in ['infra', 'mgmt']]
+
 def generateNextAvailableSubnets(name, **kwargs) -> list:
     """
     Generates a list of dicts of subnets by iterating through the next
@@ -471,11 +496,19 @@ def generateNextAvailableSubnets(name, **kwargs) -> list:
     dev_client  = kwargs.get('dev_client', True)
     dev_web  = kwargs.get('dev_web', True)
     dev_app  = kwargs.get('dev_app', True)
-    dev_db  = kwargs.get('dev_db', True)     
+    dev_db  = kwargs.get('dev_db', True)
+
+    # Get the supernets
+    # TODO: Actually let the user specifiy these subnets
+    prod_supernet = make_ip_network(kwargs.get('prod_supernet', '10.46.0.0/16'))
+    uat_supernet = make_ip_network(kwargs.get('uat_supernet', '10.47.0.0/16'))
+    dev_supernet = make_ip_network(kwargs.get('dev_supernet', '10.48.0.0/16'))  
     
     results = []
        
     def appendNet(name, net, role, seg):
+        # Turn the supplied subnet info into a dict of attributes we will
+        # later iterate over and create in ACI and IPAM 
         return {'subnet': net,
                 'name': '{}_{}_{}'.format(name.lower(), role, seg),
                 'role': role,
@@ -656,17 +689,4 @@ def generateSubnetsFromSeed(name, prod_client_subnet, **kwargs) -> list:
 
 # Execute the program    
 log = startLogging()
-
-# createNewSBMApplication(name= 'Mastersaf', 
-#                         prod_client_subnet= ip.ip_network('10.46.15.0/28'),
-#                         subnet_size  = 28,
-#                         prod_db  = False,
-#                         uat_db  = False,
-#                         dev_db  = False,
-#                         tenant = 'sbm',
-#                         comment = 'Change CHG0031868 for Igor',
-#                         reserve_in_ipam = True,
-#                         autoIP = False,
-#                         create_in_aci= True,
-#                         )
                         

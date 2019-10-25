@@ -4,8 +4,7 @@ from pyforms.controls   import ControlButton
 from pyforms.controls   import ControlCheckBox
 from pyforms.controls   import ControlCombo
 
-from deploy_application import createNewSBMApplication
-
+from deploy_application import createNewApplication, getUsableTenants
 from ipaddress import ip_network, AddressValueError
 import traceback
 import read_config
@@ -14,7 +13,7 @@ class ApplicationDeployer(BaseWidget):
 
     def __init__(self, *args, **kwargs):
         print('Loading GUI')
-        super().__init__('SBM Application Deployment')
+        super().__init__('ACI Application Deployment')
 
         config = read_config.read()
 
@@ -30,8 +29,13 @@ class ApplicationDeployer(BaseWidget):
         self._reserve_in_ipam = ControlCheckBox('Reserve in IPAM', default=True)
         self._append = ControlCheckBox('Append to Existing Service (Overwrite Possible)', default=False)
         self._cc_env = ControlCombo('Environment')
-        self._cc_env.add_item('Lab (Dev)', 'lab')
-        self._cc_env.add_item('SBM (Production)', 'sbm')
+        self._cc_env.add_item('(DEV) - DeployACI Lab', 'deployaci_lab')
+
+        # Populate the environment list from actual tenants
+        for tenant in getUsableTenants():
+            if tenant == 'deployaci_lab':
+                continue
+            self._cc_env.add_item(f'(PROD) - {tenant}', tenant)
 
         self._ck_prod_client = ControlCheckBox('prod_client', default=True)
         self._ck_prod_web = ControlCheckBox('prod_web', default=True)
@@ -151,7 +155,7 @@ class ApplicationDeployer(BaseWidget):
         name.replace(' ', '_')
 
         try:
-            createNewSBMApplication(name= self._txt_name.value,
+            createNewApplication(name= self._txt_name.value,
                                 prod_client_subnet= pcs,
                                 autoIP = self._auto_ip.value,
                                 author = self._author.value,

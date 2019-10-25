@@ -61,7 +61,6 @@ def verifyFreeAddresses(subnet: ip.ip_network, num: int) -> int:
     ))
     return avail['SubnetID']
 
-
 def getReservableIPs(subnet: ip.ip_network, num: int, blank_only=True):
     """Return a list containing the next 'num' number of free addresses.
     
@@ -103,7 +102,6 @@ def getReservableIPs(subnet: ip.ip_network, num: int, blank_only=True):
         return False
     
     return nodes['results']
-
     
 def getAvailableIP(net: ip.ip_network) -> dict:
     """Get the number of available IP addresses in a subnet in IPAM.
@@ -130,8 +128,6 @@ def getAvailableIP(net: ip.ip_network) -> dict:
         raise LookupError('Subnet does not exist in IPAM')
 
     return available[0]
-
-
 
 def getIPAttributes(id: int= None, ip: str= None) -> dict:
     """Retrieve attributes of an IP address from IPAM.
@@ -171,7 +167,6 @@ def getIPAttributes(id: int= None, ip: str= None) -> dict:
     
     # Break out the dict from the response and return it
     return q['results'][0]
-
 
 def getSubnetAttributes(id: int= None, net: ip.ip_network= None) -> dict:
     """Retrieve attributes of an IP address from IPAM.
