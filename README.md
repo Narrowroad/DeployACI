@@ -16,7 +16,7 @@ pip install virtualenv
 virtualenv venv
 venv\Scripts\activate.bat
 ```
-> <b>Note:</b> If you do this and use a `virtualenv`, then any time you wish to run anything in this application, including the following installation steps, you will first run `activate.bat` (see above) to enter the virtual environment. To exit from the virtual environment, either close the terminal (command prompt) or type `deactivate`.
+> **Note:** If you do this and use a `virtualenv`, then any time you wish to run anything in this application, including the following installation steps, you will first run `activate.bat` (see above) to enter the virtual environment. To exit from the virtual environment, either close the terminal (command prompt) or type `deactivate`.
 
 
 4. Install dependancies:
