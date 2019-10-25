@@ -463,7 +463,7 @@ def make_ip_network(ip: str) -> ip.IPv4Network:
 
     return ip.ip_network(ip)
 
-def getTenants(apic: Node = None,) -> list:
+def getUsableTenants(apic: Node = None,) -> list:
     '''Returns a list of the current tenants in the fabric'''
 
     # Log in to ACI
@@ -471,7 +471,7 @@ def getTenants(apic: Node = None,) -> list:
 
     # Get the tennants
     result = apic.mit.GET(**options.subtreeClass('fvTenant'))
-    return [tn.name for tn in result]
+    return [tn.name for tn in result if not tn.name in ['infra', 'mgmt']]
 
 
 def generateNextAvailableSubnets(name, **kwargs) -> list:
