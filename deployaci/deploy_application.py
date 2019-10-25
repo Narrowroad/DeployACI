@@ -479,7 +479,6 @@ def getUsableTenants(apic: Node = None,) -> list:
     result = apic.mit.GET(**options.subtreeClass('fvTenant'))
     return [tn.name for tn in result if not tn.name in ['infra', 'mgmt']]
 
-
 def generateNextAvailableSubnets(name, **kwargs) -> list:
     """
     Generates a list of dicts of subnets by iterating through the next
