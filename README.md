@@ -3,7 +3,7 @@
 
 # DeployACI
 
-DeployACI is a Python library for deploying applications within the SBM Amsterdam datacenters.
+DeployACI is a Python library for deploying applications within an ACI fabric.
 
 ## Installation
 
@@ -39,17 +39,17 @@ This is the layout of the file:
 
 ```ini
 [IPAM SERVER]
-serveripaddress = orion.sbmoffshore.com
-username = svc_api
+serveripaddress = 
+username = 
 password = 
 
 [ACI APIC]
-url = https://10.43.40.11
-username = admin
+url = https://
+username = 
 password = 
 
 [DEFAULT VALUES]
-your_name = Wyko ter Haar
+your_name = 
 ```
 
 ## Usage
