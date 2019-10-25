@@ -19,12 +19,12 @@ def createEmptyConfig():
 
     config = configparser.ConfigParser()
     config['IPAM SERVER'] = {
-        'ServerIpAddress': 'orion.sbmoffshore.com',
+        'ServerIpAddress': 'orion.mydomain.com',
         'username': 'svc_api',
         'password': ''
         }
     config['ACI APIC'] = {
-        'url': 'https://10.43.40.11',
+        'url': 'https://apic01.mydomain.com',
         'username': 'admin',
         'password': ''
         }

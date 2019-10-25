@@ -393,8 +393,7 @@ def checkACI(name: str,
     """
     # Log in to ACI
     apic = aciLogIn(apic)
-    # sbm = apic.mit.polUni().fvTenant(tenant)
-
+    
     # Get all the subnets in the tenant to make sure the new ones don't exist
     for subnet in apic.mit.polUni().fvTenant(tenant).GET(**options.subtreeClass('fvSubnet')):
         
@@ -690,17 +689,4 @@ def generateSubnetsFromSeed(name, prod_client_subnet, **kwargs) -> list:
 
 # Execute the program    
 log = startLogging()
-
-# createNewApplication(name= 'Mastersaf', 
-#                         prod_client_subnet= ip.ip_network('10.46.15.0/28'),
-#                         subnet_size  = 28,
-#                         prod_db  = False,
-#                         uat_db  = False,
-#                         dev_db  = False,
-#                         tenant = 'sbm',
-#                         comment = 'Change CHG0031868 for Igor',
-#                         reserve_in_ipam = True,
-#                         autoIP = False,
-#                         create_in_aci= True,
-#                         )
                         

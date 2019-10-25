@@ -13,7 +13,7 @@ class ApplicationDeployer(BaseWidget):
 
     def __init__(self, *args, **kwargs):
         print('Loading GUI')
-        super().__init__('SBM Application Deployment')
+        super().__init__('ACI Application Deployment')
 
         config = read_config.read()
 
