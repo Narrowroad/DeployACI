@@ -30,7 +30,8 @@ class ApplicationDeployer(BaseWidget):
         self._reserve_in_ipam = ControlCheckBox('Reserve in IPAM', default=True)
         self._append = ControlCheckBox('Append to Existing Service (Overwrite Possible)', default=False)
         self._cc_env = ControlCombo('Environment')
-        self._cc_env.add_item('Lab (Dev)', 'lab')
+        self._cc_env.add_item('DeployACI Lab (Dev)', 'deployaci_lab')
+        # TODO: Populate this from ACUAL tenants
         self._cc_env.add_item('SBM (Production)', 'sbm')
 
         self._ck_prod_client = ControlCheckBox('prod_client', default=True)

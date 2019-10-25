@@ -485,6 +485,7 @@ def generateNextAvailableSubnets(name, **kwargs) -> list:
     dev_db  = kwargs.get('dev_db', True)
 
     # Get the supernets
+    # TODO: Actually let the user specifiy these subnets
     prod_supernet = make_ip_network(kwargs.get('prod_supernet', '10.46.0.0/16'))
     uat_supernet = make_ip_network(kwargs.get('uat_supernet', '10.47.0.0/16'))
     dev_supernet = make_ip_network(kwargs.get('dev_supernet', '10.48.0.0/16'))  
