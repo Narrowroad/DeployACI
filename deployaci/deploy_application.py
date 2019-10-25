@@ -455,13 +455,23 @@ def startLogging() -> logging.Logger:
     log.debug('Logger started')
     return log
 
-def make_ip_network(ip: str) -> ip.ipv4network:
+def make_ip_network(ip: str) -> ip.IPv4Network:
     '''Returns an IP network object from the supplied string'''
     # If the supplied ip is already a network, just return it
     if isinstance(ip, NETTYPE): 
         return ip
 
     return ip.ip_network(ip)
+
+def getTenants(apic: Node = None,) -> list:
+    '''Returns a list of the current tenants in the fabric'''
+
+    # Log in to ACI
+    apic = aciLogIn(apic)
+
+    # Get the tennants
+    result = apic.mit.GET(**options.subtreeClass('fvTenant'))
+    return [tn.name for tn in result]
 
 
 def generateNextAvailableSubnets(name, **kwargs) -> list:
