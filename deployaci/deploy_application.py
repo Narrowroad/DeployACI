@@ -141,7 +141,7 @@ def aciLogIn(apic = None):
                                                         ).POST()))
     return apic
     
-def createNewSBMApplication(name: str, 
+def createNewApplication(name: str, 
                             prod_client_subnet: ip.ip_network,
                             **kwargs) -> bool:
     """Deploy a new application into the NL Equinix ACI environment.
@@ -691,7 +691,7 @@ def generateSubnetsFromSeed(name, prod_client_subnet, **kwargs) -> list:
 # Execute the program    
 log = startLogging()
 
-# createNewSBMApplication(name= 'Mastersaf', 
+# createNewApplication(name= 'Mastersaf', 
 #                         prod_client_subnet= ip.ip_network('10.46.15.0/28'),
 #                         subnet_size  = 28,
 #                         prod_db  = False,

@@ -4,7 +4,7 @@ from pyforms.controls   import ControlButton
 from pyforms.controls   import ControlCheckBox
 from pyforms.controls   import ControlCombo
 
-from deploy_application import createNewSBMApplication, getUsableTenants
+from deploy_application import createNewApplication, getUsableTenants
 from ipaddress import ip_network, AddressValueError
 import traceback
 import read_config
@@ -155,7 +155,7 @@ class ApplicationDeployer(BaseWidget):
         name.replace(' ', '_')
 
         try:
-            createNewSBMApplication(name= self._txt_name.value,
+            createNewApplication(name= self._txt_name.value,
                                 prod_client_subnet= pcs,
                                 autoIP = self._auto_ip.value,
                                 author = self._author.value,
