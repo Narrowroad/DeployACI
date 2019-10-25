@@ -24,9 +24,9 @@ venv\Scripts\activate.bat
 cd [package directory]
 pip install -r requirements.txt
 ```
-5. Download the ACI metadata to your computer. You will need to get the ACI `admin` account password from [PmP](https://nlpmp001.sbmoffshore.com:7272/PassTrixMain.cc#/PasswordFullView/PasswordMainView).
+5. Download the ACI metadata to your computer. You will need to get the ACI `admin` account password 
 ```sh
-rmetagen.py -u admin 10.43.40.11
+rmetagen.py -u [username] [ip_of_APIC]
 ```
 6. Run the application once without doing anything to generate the blank config file. You can close it as soon as it opens.
 ```sh
@@ -108,13 +108,9 @@ At the bottom of the GUI is a list of possible EPGs to make. By default all are 
 ## After Running
 After the application runs, check the terminal that you ran the it from to find a report on the EPGs that you created. You can share this output with the server engineers.
 
-> **Note**: This is a **dangerous** application. With minimal effort, you will affect widespread changes across the **production environment**. If you have any questions on how to use this, please reach out to Wyko ter Haar.
+> **Note**: This is a **dangerous** application. With minimal effort, you will affect widespread changes across the **production environment**. If you have any questions on how to use this, please reach out.
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-
-
-## License
-This application is proprietary to SBM Offshore and is not to be used by any unauthorized persons. As such, no license applies.
 
