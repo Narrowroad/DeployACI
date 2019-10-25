@@ -464,7 +464,13 @@ def make_ip_network(ip: str) -> ip.IPv4Network:
     return ip.ip_network(ip)
 
 def getUsableTenants(apic: Node = None,) -> list:
-    '''Returns a list of the current tenants in the fabric'''
+    '''
+    Returns a list of the current tenants in the fabric. In other words,
+        return all tenants that are not mgmt and infra.
+    
+    Returns:
+        list[str]: A list containing the name of each usable tenant in the fabric
+    '''
 
     # Log in to ACI
     apic = aciLogIn(apic)
