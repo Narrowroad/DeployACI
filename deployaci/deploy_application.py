@@ -25,6 +25,8 @@ import datetime
 import time
 import read_config
 
+IPTYPE = (ip.IPv4Address, ip.IPv6Address)
+NETTYPE = (ip.IPv4Network, ip.IPv6Network)
 CONSOLE_LOGGING = logging.DEBUG
 
 
@@ -453,6 +455,15 @@ def startLogging() -> logging.Logger:
     log.debug('Logger started')
     return log
 
+def make_ip_network(ip: str) -> ip.ipv4network:
+    '''Returns an IP network object from the supplied string'''
+    # If the supplied ip is already a network, just return it
+    if isinstance(ip, NETTYPE): 
+        return ip
+
+    return ip.ip_network(ip)
+
+
 def generateNextAvailableSubnets(name, **kwargs) -> list:
     """
     Generates a list of dicts of subnets by iterating through the next
@@ -471,11 +482,18 @@ def generateNextAvailableSubnets(name, **kwargs) -> list:
     dev_client  = kwargs.get('dev_client', True)
     dev_web  = kwargs.get('dev_web', True)
     dev_app  = kwargs.get('dev_app', True)
-    dev_db  = kwargs.get('dev_db', True)     
+    dev_db  = kwargs.get('dev_db', True)
+
+    # Get the supernets
+    prod_supernet = make_ip_network(kwargs.get('prod_supernet', '10.46.0.0/16'))
+    uat_supernet = make_ip_network(kwargs.get('uat_supernet', '10.47.0.0/16'))
+    dev_supernet = make_ip_network(kwargs.get('dev_supernet', '10.48.0.0/16'))  
     
     results = []
        
     def appendNet(name, net, role, seg):
+        # Turn the supplied subnet info into a dict of attributes we will
+        # later iterate over and create in ACI and IPAM 
         return {'subnet': net,
                 'name': '{}_{}_{}'.format(name.lower(), role, seg),
                 'role': role,
